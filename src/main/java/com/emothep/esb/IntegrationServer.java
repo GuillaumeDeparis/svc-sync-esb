@@ -17,20 +17,25 @@ public class IntegrationServer {
     private String sagHome;
     private Path packagePath;
 
-    private ArrayList<ISPackage> packageList;
+    private ArrayList<ISPackage> packageList = new ArrayList<>();
 
     public IntegrationServer(){
+        this.sagHome = "C:\\softwareag\\IntegrationServer\\instances\\default";
         this.getInstanceName();
-        this.getPackagePath();
-        this.getPackageList();
+        this.setPackagePath();
+        this.setPackageList();
     }
 
     private void getInstanceName(){
         this.name = "default";
     }
 
-    private void getPackagePath(){
-        this.packagePath = Paths.get(this.sagHome + System.lineSeparator() + "packages");
+    private void setPackagePath(){
+        this.packagePath = Paths.get(this.sagHome + System.getProperty("file.separator") + "packages");
+    }
+
+    private Path getPackagePath(){
+        return this.packagePath;
     }
 
     public String getName() {
@@ -53,12 +58,15 @@ public class IntegrationServer {
         return this.packageList;
     }
 
-    public void setPackageList() throws IOException {
+    public void setPackageList(){
         try(Stream<Path> listPackages = Files.walk(this.packagePath,1)){
             listPackages
                     .filter(Files::isDirectory)
                     .forEach(currentPackage ->
                             this.packageList.add(new ISPackage(currentPackage.getFileName().toString())));
+        }
+        catch (IOException ioException){
+            logger.error(ioException);
         }
     }
 }

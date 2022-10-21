@@ -36,7 +36,7 @@ public class ISPackage {
     }
 
     private void checkSymlink(){
-        if()
+        if(true)
             this.isSymlink = true;
         else
             this.isSymlink = false;
