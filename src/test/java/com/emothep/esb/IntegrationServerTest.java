@@ -9,15 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IntegrationServerTest {
 
-    public IntegrationServer is = new IntegrationServer();
+    public IntegrationServer is = new IntegrationServer("default","C:\\softwareag\\IntegrationServer\\instances\\default");
     @Test
     void getPackageList() {
         ArrayList<ISPackage>  packageList = this.is.getPackageList();
         assertNotNull(packageList);
-        for (ISPackage isPackage : packageList) {
-            System.out.println(isPackage.getName());
-        }
-
     }
 
     @Test

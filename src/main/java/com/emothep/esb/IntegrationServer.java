@@ -17,19 +17,21 @@ public class IntegrationServer {
     private String sagHome;
     private Path packagePath;
 
-    private ArrayList<ISPackage> packageList = new ArrayList<>();
+    private final ArrayList<ISPackage> packageList = new ArrayList<>();
 
-    public IntegrationServer(){
-        this.sagHome = "C:\\softwareag\\IntegrationServer\\instances\\default";
-        this.getInstanceName();
+    public IntegrationServer(String name, String sagHome){
+        this.setSagHome(sagHome);
+        this.setInstanceName(name);
         this.setPackagePath();
         this.setPackageList();
     }
 
-    private void getInstanceName(){
-        this.name = "default";
+    private String getInstanceName(){
+        return this.name;
     }
-
+    private void setInstanceName(String name){
+        this.name = name;
+    }
     private void setPackagePath(){
         this.packagePath = Paths.get(this.sagHome + System.getProperty("file.separator") + "packages");
     }
@@ -63,7 +65,7 @@ public class IntegrationServer {
             listPackages
                     .filter(Files::isDirectory)
                     .forEach(currentPackage ->
-                            this.packageList.add(new ISPackage(currentPackage.getFileName().toString())));
+                            this.packageList.add(new ISPackage(currentPackage)));
         }
         catch (IOException ioException){
             logger.error(ioException);
